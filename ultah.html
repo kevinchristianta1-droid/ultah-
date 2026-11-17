@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday!</title>
+    <!-- Fonts & Canvas Confetti -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100dvh;
+            min-height: 100vh;
+            font-family: 'Great Vibes', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #800020 0%, #4a0012 60%, #1a0006 100%);
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .main-wrapper {
+            position: relative;
+            width: 1000px;
+            height: 580px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-origin: center center;
+            will-change: transform;
+        }
+
+        @keyframes scalePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.04);
+            }
+        }
+
+        /* --- SCREEN 1 --- */
+        #screen1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 50;
+            transition: all 0.5s ease;
+        }
+
+        .title-screen1 {
+            font-size: 3.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+            animation: scalePulse 3s ease-in-out infinite;
+        }
+
+        .envelope-init {
+            width: 280px;
+            height: 170px;
+            background-color: #f7f5ed;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+            animation: scalePulse 2.5s ease-in-out infinite;
+        }
+
+        .flap-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #ece7d8;
+            z-index: 1;
+        }
+
+        .flap-left {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 140px solid #e2dcce;
+            border-top: 85px solid transparent;
+            border-bottom: 85px solid transparent;
+            z-index: 2;
+        }
+
+        .flap-right {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-right: 140px solid #e2dcce;
+            border-top: 85px solid transparent;
+            border-bottom: 85px solid transparent;
+            z-index: 2;
+        }
+
+        .flap-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-bottom: 95px solid #ebd8c8;
+            z-index: 3;
+        }
+
+        .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background: radial-gradient(circle at 30% 30%, #a81c3b, #4a0012 80%);
+            border-radius: 50%;
+            z-index: 4;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border: 2px solid #800020;
+        }
+
+        .subtitle-screen1 {
+            font-size: 2rem;
+            margin-top: 20px;
+            animation: scalePulse 2s ease-in-out infinite;
+        }
+
+        /* --- SCREEN 2 --- */
+        #screen2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        #screen2.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .envelope-center {
+            position: absolute;
+            top: 150px;
+            width: 420px;
+            height: 260px;
+            background-color: #ded7c6;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .envelope-flap-bg {
+            position: absolute;
+            top: -110px;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-bottom: 120px solid #ece6d8;
+            z-index: 9;
+        }
+
+        .envelope-flap-left {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 210px solid #d0c8b5;
+            border-top: 130px solid transparent;
+            border-bottom: 130px solid transparent;
+            z-index: 11;
+        }
+
+        .envelope-flap-right {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-right: 210px solid #d0c8b5;
+            border-top: 130px solid transparent;
+            border-bottom: 130px solid transparent;
+            z-index: 11;
+        }
+
+        .envelope-flap-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-bottom: 145px solid #c7beab;
+            z-index: 11;
+        }
+
+        .birthday-card {
+            position: absolute;
+            top: 85px;
+            width: 350px;
+            height: 200px;
+            background: #ffffff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 12;
+            clip-path: polygon(0% 3%, 4% 0%, 9% 3%, 14% 0%, 19% 4%, 24% 1%, 29% 3%, 34% 0%, 39% 3%, 44% 0%, 49% 3%, 54% 1%, 59% 4%, 64% 0%, 69% 3%, 74% 0%, 79% 3%, 84% 0%, 89% 3%, 94% 0%, 100% 3%,
+                    97% 18%, 100% 32%, 97% 48%, 100% 63%, 97% 78%, 100% 92%, 98% 100%,
+                    94% 97%, 89% 100%, 84% 97%, 79% 100%, 74% 96%, 69% 100%, 64% 97%, 59% 100%, 54% 97%, 49% 100%, 44% 97%, 39% 100%, 34% 96%, 29% 100%, 24% 97%, 19% 100%, 14% 97%, 9% 100%, 4% 97%, 0% 100%,
+                    3% 85%, 0% 70%, 3% 55%, 0% 40%, 3% 25%, 0% 10%);
+        }
+
+        .birthday-card h2 {
+            color: #630016;
+            font-size: 4.2rem;
+            line-height: 0.82;
+        }
+
+        .birthday-card p {
+            font-family: 'Montserrat', sans-serif;
+            color: #630016;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 15px;
+            letter-spacing: 1.5px;
+        }
+
+        .seal-bottom {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 35% 35%, #a81c3b, #4a0012 80%);
+            border-radius: 50%;
+            z-index: 13;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            border: 2px solid #800020;
+        }
+
+        .photo-heart-wrapper {
+            position: absolute;
+            top: 110px;
+            left: 60px;
+            width: 260px;
+            height: 240px;
+            z-index: 5;
+            transform: rotate(-12deg);
+        }
+
+        .photo-heart-light-svg {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 300px;
+            height: 280px;
+            z-index: 4;
+            pointer-events: none;
+            filter: drop-shadow(0px 0px 18px rgba(168, 28, 59, 0.9));
+            animation: heartLightPulse 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes heartLightPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.75;
+            }
+
+            100% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
+        .photo-heart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            filter: drop-shadow(0px 12px 22px rgba(0, 0, 0, 0.7));
+        }
+
+        .photo-heart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .photo-polaroid {
+            position: absolute;
+            bottom: 30px;
+            left: 70px;
+            width: 210px;
+            background: #ffffff;
+            padding: 12px 12px 42px 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            transform: rotate(-22deg);
+            z-index: 15;
+            border-radius: 2px;
+        }
+
+        .photo-polaroid img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-photostrip {
+            position: absolute;
+            top: 70px;
+            right: 80px;
+            width: 180px;
+            background: #ffffff;
+            padding: 12px 12px 16px 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            transform: rotate(18deg);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 15;
+            border-radius: 2px;
+        }
+
+        .photo-photostrip img {
+            width: 100%;
+            height: 125px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- DEKORASI FOTO --- */
+        .emoji-deco {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            filter: drop-shadow(2px 6px 12px rgba(0, 0, 0, 0.6));
+            border-radius: 8px;
+            object-fit: cover;
+            background: transparent;
+            padding: 4px;
+        }
+
+        .butterfly-1 {
+            top: 250px;
+            left: 180px;
+            width: 290px;
+            height: auto;
+            z-index: 17;
+            transform: rotate(-10deg);
+        }
+
+        .rose-1 {
+            top: 130px;
+            left: 170px;
+            width: 240px;
+            height: auto;
+            z-index: 16;
+            transform: rotate(8deg);
+        }
+
+        .rose-2 {
+            top: -10px;
+            right: 185px;
+            width: 260px;
+            height: auto;
+            z-index: 16;
+            transform: rotate(-12deg);
+        }
+
+        .flower-1 {
+            top: 200px;
+            right: 200px;
+            width: 200px;
+            height: auto;
+            z-index: 16;
+            transform: rotate(15deg);
+        }
+
+        .sparkle-1 {
+            bottom: 130px;
+            right: -70px;
+            width: 285px;
+            height: auto;
+            z-index: 18;
+            transform: rotate(-5deg);
+        }
+
+        .btn-surprise {
+            position: absolute;
+            bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-decoration: underline;
+            cursor: pointer;
+            z-index: 30;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+            padding: 8px 16px;
+        }
+
+        .anim-item {
+            opacity: 0;
+            transform: scale(0.5) translateY(30px);
+            transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .anim-item.show {
+            opacity: 1;
+        }
+
+        .envelope-center.anim-item.show,
+        .birthday-card.anim-item.show {
+            transform: scale(1) translateY(0);
+        }
+
+        .photo-heart-wrapper.anim-item.show {
+            transform: scale(1) rotate(-12deg);
+        }
+
+        .photo-polaroid.anim-item.show {
+            transform: scale(1) rotate(-22deg);
+        }
+
+        .photo-photostrip.anim-item.show {
+            transform: scale(1) rotate(18deg);
+        }
+
+        .butterfly-1.anim-item.show {
+            animation: floatButterfly 3s ease-in-out infinite alternate;
+        }
+
+        .btn-surprise.anim-item.show {
+            animation: scalePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes floatButterfly {
+            0% {
+                transform: translateY(0) rotate(-10deg);
+            }
+
+            100% {
+                transform: translateY(-8px) rotate(-16deg);
+            }
+        }
+
+        /* --- SCREEN 3 --- */
+        #screen3 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 60;
+        }
+
+        #screen3.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .screen3-bg-photo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100dvh;
+            background-image: url('https://images.unsplash.com/photo-1519751138061-ce969af32125?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            mix-blend-mode: overlay;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .title-screen3 {
+            font-size: 4.8rem;
+            color: #ffffff;
+            margin-bottom: 50px;
+            text-shadow: 0 0 15px rgba(168, 28, 59, 0.8), 2px 2px 10px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .surprise-options {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 60px;
+            width: 100%;
+            max-width: 900px;
+            z-index: 2;
+        }
+
+        .option-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .option-card:hover {
+            transform: translateY(-12px) scale(1.1) !important;
+        }
+
+        .option-icon-box {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .option-icon-box::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.75) 0%, rgba(218, 165, 32, 0.35) 45%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(14px);
+            animation: auraPulse 2.8s infinite alternate ease-in-out;
+        }
+
+        .option-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+            animation: floatAnimation 3.2s infinite ease-in-out;
+        }
+
+        .option-card:nth-child(1) .option-img {
+            animation-delay: 0s;
+        }
+
+        .option-card:nth-child(2) .option-img {
+            animation-delay: 0.5s;
+        }
+
+        .option-card:nth-child(3) .option-img {
+            animation-delay: 1s;
+        }
+
+        @keyframes floatAnimation {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(2deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        @keyframes auraPulse {
+            0% {
+                transform: scale(0.85);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 0.95;
+            }
+        }
+
+        .option-label {
+            font-size: 2.8rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+            padding-bottom: 2px;
+        }
+
+        .anim-up {
+            opacity: 0;
+            transform: translateY(120px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .anim-up.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- TOMBOL BACK --- */
+        .btn-back {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #220101;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            border: 2px solid #4a0012;
+            z-index: 120;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.08);
+        }
+
+        /* --- SCREEN 4 --- */
+        #screen4 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 70;
+            background: transparent;
+        }
+
+        #screen4.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 950px;
+            height: 480px;
+        }
+
+        .g-polaroid {
+            position: absolute;
+            background: #ffffff;
+            padding: 10px 10px 35px 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-radius: 3px;
+            opacity: 0;
+            transform: scale(0.3) rotate(0deg);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .g-polaroid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gp-1 {
+            top: 30px;
+            left: 175px;
+            width: 155px;
+            height: 185px;
+            transform: rotate(-8deg) scale(0.3);
+        }
+
+        .gp-2 {
+            top: 60px;
+            left: 335px;
+            width: 150px;
+            height: 185px;
+            transform: rotate(4deg) scale(0.3);
+        }
+
+        .gp-3 {
+            top: 65px;
+            left: 485px;
+            width: 145px;
+            height: 185px;
+            transform: rotate(-3deg) scale(0.3);
+        }
+
+        .gp-4 {
+            top: 25px;
+            left: 635px;
+            width: 165px;
+            height: 195px;
+            transform: rotate(10deg) scale(0.3);
+        }
+
+        .gp-5 {
+            top: 235px;
+            left: 140px;
+            width: 160px;
+            height: 200px;
+            transform: rotate(6deg) scale(0.3);
+        }
+
+        .gp-6 {
+            top: 260px;
+            left: 305px;
+            width: 145px;
+            height: 185px;
+            transform: rotate(-5deg) scale(0.3);
+        }
+
+        .gp-7 {
+            top: 275px;
+            left: 465px;
+            width: 145px;
+            height: 180px;
+            transform: rotate(3deg) scale(0.3);
+        }
+
+        .gp-8 {
+            top: 260px;
+            left: 635px;
+            width: 155px;
+            height: 195px;
+            transform: rotate(-8deg) scale(0.3);
+        }
+
+        .gp-1.show {
+            opacity: 1;
+            transform: rotate(-8deg) scale(1);
+        }
+
+        .gp-2.show {
+            opacity: 1;
+            transform: rotate(4deg) scale(1);
+        }
+
+        .gp-3.show {
+            opacity: 1;
+            transform: rotate(-3deg) scale(1);
+        }
+
+        .gp-4.show {
+            opacity: 1;
+            transform: rotate(10deg) scale(1);
+        }
+
+        .gp-5.show {
+            opacity: 1;
+            transform: rotate(6deg) scale(1);
+        }
+
+        .gp-6.show {
+            opacity: 1;
+            transform: rotate(-5deg) scale(1);
+        }
+
+        .gp-7.show {
+            opacity: 1;
+            transform: rotate(3deg) scale(1);
+        }
+
+        .gp-8.show {
+            opacity: 1;
+            transform: rotate(-8deg) scale(1);
+        }
+
+        .g-sticker {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            padding: 4px;
+            z-index: 25;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(3px 5px 8px rgba(0, 0, 0, 0.4));
+        }
+
+        .g-sticker.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stk-saturn {
+            bottom: 25px;
+            left: 80px;
+            transform: rotate(-15deg);
+        }
+
+        .stk-saturn.show {
+            transform: rotate(-15deg) scale(1);
+        }
+
+        .stk-blue-planet {
+            bottom: 15px;
+            right: 130px;
+            transform: rotate(10deg);
+        }
+
+        .stk-blue-planet.show {
+            transform: rotate(10deg) scale(1);
+        }
+
+        .stk-whale {
+            top: 210px;
+            right: 100px;
+            transform: rotate(-10deg);
+        }
+
+        .stk-whale.show {
+            transform: rotate(-10deg) scale(1);
+        }
+
+        .stk-wax-heart {
+            top: 190px;
+            left: 550px;
+        }
+
+        .stk-pink-hearts-left {
+            top: 165px;
+            left: 280px;
+            transform: rotate(-15deg);
+        }
+
+        .stk-pink-hearts-left.show {
+            transform: rotate(-15deg) scale(1);
+        }
+
+        .stk-pink-hearts-bottom {
+            bottom: 5px;
+            left: 375px;
+            transform: rotate(5deg);
+        }
+
+        .stk-pink-hearts-bottom.show {
+            transform: rotate(5deg) scale(1);
+        }
+
+        /* --- SCREEN 5: MOMENT --- */
+        #screen5 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 80;
+            background: transparent;
+        }
+
+        #screen5.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .moment-container {
+            position: relative;
+            width: 960px;
+            height: 520px;
+        }
+
+        .moment-item {
+            opacity: 0;
+            transform: scale(0.6);
+            transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .moment-name-title {
+            position: absolute;
+            top: 25px;
+            left: 205px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 5.5rem;
+            color: #ffffff;
+            text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.7);
+            transform: rotate(-7deg);
+            z-index: 30;
+        }
+
+        .moment-name-title.show {
+            opacity: 1;
+            transform: rotate(-7deg) scale(1);
+        }
+
+        .moment-paper-card {
+            position: absolute;
+            top: 135px;
+            left: 205px;
+            width: 470px;
+            height: 320px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px 22px 24px 54px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transform: rotate(-5deg);
+            z-index: 10;
+        }
+
+        .moment-paper-card.show {
+            opacity: 1;
+            transform: rotate(-5deg) scale(1);
+        }
+
+        .moment-text-typed {
+            font-family: 'Montserrat', sans-serif;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.18;
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.05rem;
+            background-color: #800020;
+            margin-left: 2px;
+            animation: blinkCursor 0.6s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blinkCursor {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .moment-deco-img {
+            object-fit: contain;
+            background: transparent;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .rose-cluster-left {
+            position: absolute;
+            top: 140px;
+            left: 50px;
+            width: 275px;
+            height: 310px;
+            z-index: 20;
+            transform: rotate(-12deg);
+            filter: drop-shadow(4px 8px 12px rgba(0, 0, 0, 0.6));
+        }
+
+        .rose-cluster-left.show {
+            opacity: 1;
+            transform: rotate(-12deg) scale(1);
+        }
+
+        .gold-frame-wrapper {
+            position: absolute;
+            top: 155px;
+            right: 90px;
+            width: 245px;
+            height: 255px;
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            padding: 14px;
+            border-radius: 6px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: rotate(6deg);
+            z-index: 8;
+        }
+
+        .gold-frame-inner {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border: 3px solid #85581A;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .gold-frame-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gold-frame-wrapper.show {
+            opacity: 1;
+            transform: rotate(6deg) scale(1);
+        }
+
+        .rose-sticker-frame {
+            position: absolute;
+            top: 100px;
+            right: 25px;
+            width: 150px;
+            height: 150px;
+            z-index: 22;
+            transform: rotate(20deg);
+            filter: drop-shadow(4px 6px 12px rgba(0, 0, 0, 0.6));
+        }
+
+        .rose-sticker-frame.show {
+            opacity: 1;
+            transform: rotate(20deg) scale(1);
+        }
+
+        .camera-real-item {
+            position: absolute;
+            top: 350px;
+            right: 165px;
+            width: 220px;
+            height: 220px;
+            z-index: 25;
+            transform: rotate(10deg);
+            filter: drop-shadow(4px 10px 15px rgba(0, 0, 0, 0.7));
+        }
+
+        .camera-real-item.show {
+            opacity: 1;
+            transform: rotate(10deg) scale(1);
+        }
+
+        /* --- PIRINGAN HITAM BERPUTAR --- */
+        .circular-vinyl-player {
+            position: absolute;
+            bottom: -45px;
+            left: 365px;
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .circular-vinyl-player:hover {
+            transform: scale(1.06) !important;
+        }
+
+        .vinyl-spinning-disc {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background:
+                repeating-radial-gradient(circle, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 2px, transparent 2px, transparent 5px),
+                linear-gradient(135deg, #111111 0%, #111111 40%, #444444 50%, #111111 60%, #050505 100%);
+            animation: spinVinyl 13s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes spinVinyl {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .vinyl-controls-row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 11px;
+            margin-top: 25px;
+            z-index: 2;
+            transform: rotate(-5deg);
+        }
+
+        .vinyl-icon-btn {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: sans-serif;
+            opacity: 0.95;
+            user-select: none;
+        }
+
+        .vinyl-red-ring {
+            width: 50px;
+            height: 50px;
+            background: #e61c24;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .vinyl-cream-center {
+            width: 28px;
+            height: 28px;
+            background: #f7f3e8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d91c24;
+            font-size: 0.85rem;
+            padding-left: 2px;
+        }
+
+        .circular-vinyl-label {
+            position: relative;
+            margin-top: 10px;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #e8e8e8;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            z-index: 2;
+            transform: rotate(-5deg);
+        }
+
+        .circular-vinyl-player.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- SCREEN 6: PLAYLIST --- */
+        #screen6 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 85;
+            background: transparent;
+        }
+
+        #screen6.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .playlist-container {
+            position: relative;
+            width: 950px;
+            height: 520px;
+        }
+
+        .yt-video-wrapper {
+            position: absolute;
+            top: 10px;
+            left: 40px;
+            width: 520px;
+            height: 310px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .playlist-frames-right {
+            position: absolute;
+            right: 40px;
+            width: 320px;
+            height: 400px;
+        }
+
+        .gold-mini-frame {
+            position: absolute;
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .gold-mini-frame-inner {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border: 2px solid #85581A;
+        }
+
+        .gold-mini-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .f-top-left {
+            top: 210px;
+            left: 15px;
+            width: 140px;
+            height: 170px;
+            transform: rotate(-3deg);
+            z-index: 2;
+        }
+
+        .f-top-right {
+            top: 100px;
+            right: 0px;
+            width: 150px;
+            height: 180px;
+            transform: rotate(5deg);
+            z-index: 1;
+        }
+
+        .f-bottom-center {
+            top: 10px;
+            left: 0px;
+            width: 155px;
+            height: 185px;
+            transform: rotate(-2deg);
+            z-index: 3;
+        }
+
+        .playlist-emoji-deco {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            object-fit: contain;
+            background: transparent;
+            filter: drop-shadow(4px 8px 12px rgba(0, 0, 0, 0.6));
+        }
+
+        .emoji-radio {
+            left: 15px;
+            width: 250px;
+            height: 250px;
+            bottom: -50px;
+        }
+
+        .emoji-tv {
+            left: 260px;
+            width: 230px;
+            height: 230px;
+            bottom: -25px;
+        }
+
+        .emoji-music-notes {
+            right: 115px;
+            width: 325px;
+            height: 325px;
+            bottom: -110px;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+            }
+
+            100% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
+            }
+        }
+
+        .playlist-item {
+            opacity: 0;
+            transform: translateY(30px) scale(0.8);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .playlist-item.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper" id="mainWrapper">
+
+        <!-- SCREEN 1 -->
+        <div id="screen1">
+            <h1 class="title-screen1">Click the Envelope</h1>
+
+            <div class="envelope-init" onclick="openEnvelope()">
+                <div class="flap-top"></div>
+                <div class="flap-left"></div>
+                <div class="flap-right"></div>
+                <div class="flap-bottom"></div>
+                <div class="wax-seal"></div>
+            </div>
+
+            <p class="subtitle-screen1">tap to continue</p>
+        </div>
+
+        <!-- SCREEN 2 -->
+        <div id="screen2">
+            <div class="envelope-center anim-item">
+                <div class="envelope-flap-bg"></div>
+                <div class="envelope-flap-left"></div>
+                <div class="envelope-flap-right"></div>
+                <div class="envelope-flap-bottom"></div>
+                <div class="seal-bottom"></div>
+            </div>
+
+            <div class="birthday-card anim-item">
+                <h2>Happy<br>Birthday</h2>
+                <p>14.06.2026</p>
+            </div>
+
+            <div class="photo-heart-wrapper anim-item">
+                <svg class="photo-heart-light-svg" viewBox="0 0 100 100">
+                    <defs>
+                        <filter id="heartGlow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="6" result="blur" />
+                        </filter>
+                    </defs>
+                    <path d="M 50,88 C 50,88 10,58 10,32 A 21,21 0 0,1 50,21 A 21,21 0 0,1 90,32 C 90,58 50,88 50,88 Z"
+                        fill="#a81c3b" filter="url(#heartGlow)" opacity="0.95" />
+                </svg>
+
+                <div class="photo-heart-container">
+                    <svg class="photo-heart-svg" viewBox="0 0 100 100">
+                        <defs>
+                            <clipPath id="perfectHeartClip">
+                                <path
+                                    d="M 50,88 C 50,88 10,58 10,32 A 21,21 0 0,1 50,21 A 21,21 0 0,1 90,32 C 90,58 50,88 50,88 Z" />
+                            </clipPath>
+                        </defs>
+                        <image href="aset/sc25.JPG" x="0" y="0" width="100" height="100"
+                            preserveAspectRatio="xMidYMid slice" clip-path="url(#perfectHeartClip)" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="photo-polaroid anim-item">
+                <img src="aset/sc21.JPG" alt="Foto Polaroid">
+            </div>
+
+            <div class="photo-photostrip anim-item">
+                <img src="aset/sc22.JPG" alt="Foto 1">
+                <img src="aset/sc23.JPG" alt="Foto 2">
+                <img src="aset/sc24.JPG" alt="Foto 3">
+            </div>
+
+            <!-- DEKORASI FOTO -->
+            <img src="aset/g1.png.png" class="emoji-deco butterfly-1 anim-item" alt="G1">
+            <img src="aset/g2.png.png" class="emoji-deco rose-1 anim-item" alt="G2">
+            <img src="aset/g3.png.png" class="emoji-deco rose-2 anim-item" alt="G3">
+            <img src="aset/g4.png.png" class="emoji-deco flower-1 anim-item" alt="G4">
+            <img src="aset/g5.png.png" class="emoji-deco sparkle-1 anim-item" alt="G5">
+
+            <div class="btn-surprise anim-item" onclick="goToScreen3()">TAP FOR SURPRISE</div>
+        </div>
+
+        <!-- SCREEN 3 -->
+        <div id="screen3">
+            <div class="screen3-bg-photo"></div>
+
+            <h1 class="title-screen3 anim-up">Choose the Surprise</h1>
+
+            <div class="surprise-options">
+                <div class="option-card anim-up" onclick="goToJourneyGallery()">
+                    <div class="option-icon-box">
+                        <img src="aset/sc31.png" alt="Journey" class="option-img">
+                    </div>
+                    <span class="option-label">Journey</span>
+                </div>
+
+                <div class="option-card anim-up" onclick="goToMomentScreen()">
+                    <div class="option-icon-box">
+                        <img src="aset/sc32.png" alt="Wishes" class="option-img">
+                    </div>
+                    <span class="option-label">Wishes</span>
+                </div>
+
+                <div class="option-card anim-up" onclick="goToPlaylistScreen()">
+                    <div class="option-icon-box">
+                        <img src="aset/sc33.png" alt="Playlist" class="option-img">
+                    </div>
+                    <span class="option-label">Playlist</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4 -->
+        <div id="screen4">
+            <button class="btn-back" onclick="backToScreen3From('screen4')">BACK ◀</button>
+
+            <div class="gallery-container">
+                <div class="g-polaroid gp-1 journey-item">
+                    <img src="aset/sc41.JPG" alt="Foto Journey 1">
+                </div>
+
+                <div class="g-polaroid gp-2 journey-item">
+                    <img src="aset/sc42.JPG" alt="Foto Journey 2">
+                </div>
+
+                <div class="g-polaroid gp-3 journey-item">
+                    <img src="aset/sc43.JPG" alt="Foto Journey 3">
+                </div>
+
+                <div class="g-polaroid gp-4 journey-item">
+                    <img src="aset/sc44.JPG" alt="Foto Journey 4">
+                </div>
+
+                <div class="g-polaroid gp-5 journey-item">
+                    <img src="aset/sc45.JPG" alt="Foto Journey 5">
+                </div>
+
+                <div class="g-polaroid gp-6 journey-item">
+                    <img src="aset/sc46.JPG" alt="Foto Journey 6">
+                </div>
+
+                <div class="g-polaroid gp-7 journey-item">
+                    <img src="aset/sc47.JPG" alt="Foto Journey 7">
+                </div>
+
+                <div class="g-polaroid gp-8 journey-item">
+                    <img src="aset/sc48.JPG" alt="Foto Journey 8">
+                </div>
+
+                <!-- Dekorasi -->
+                <img src="aset/sc49.png" class="g-sticker stk-saturn journey-item" alt="Foto dekorasi 1">
+                <img src="aset/sc410.png" class="g-sticker stk-blue-planet journey-item" alt="Foto dekorasi 2">
+                <img src="aset/sc411.png" class="g-sticker stk-whale journey-item" alt="Foto dekorasi 3">
+                <img src="aset/sc412.png" class="g-sticker stk-wax-heart journey-item" alt="Foto dekorasi 4">
+                <img src="aset/sc413.png" class="g-sticker stk-pink-hearts-left journey-item" alt="Foto dekorasi 5">
+                <img src="aset/sc414.png" class="g-sticker stk-pink-hearts-bottom journey-item" alt="Foto dekorasi 6">
+            </div>
+        </div>
+
+        <!-- SCREEN 5: MOMENT -->
+        <div id="screen5">
+            <button class="btn-back" onclick="backToScreen3From('screen5')">BACK ◀</button>
+
+            <div class="moment-container">
+                <h1 class="moment-name-title moment-item">Kenisa br Ginting</h1>
+
+                <!-- Dekorasi Mawar Sebelah Kiri Kalimat Ucapan -->
+                <img src="aset/sc52.png" class="moment-deco-img rose-cluster-left moment-item" alt="Dekorasi Kiri">
+
+                <!-- Card Kalimat Ucapan -->
+                <div class="moment-paper-card moment-item">
+                    <p class="moment-text-typed" id="typedTarget"></p>
+                </div>
+
+                <div class="circular-vinyl-player moment-item">
+                    <div class="vinyl-spinning-disc"></div>
+                    <div class="vinyl-controls-row">
+                        <span class="vinyl-icon-btn">🔀</span>
+                        <span class="vinyl-icon-btn">⏮</span>
+                        <div class="vinyl-red-ring">
+                            <div class="vinyl-cream-center">▶</div>
+                        </div>
+                        <span class="vinyl-icon-btn">⏭</span>
+                        <span class="vinyl-icon-btn">🔁</span>
+                    </div>
+                    <span class="circular-vinyl-label">Play Musik</span>
+                </div>
+
+                <!-- Dekorasi Bawah Bingkai -->
+                <img src="aset/sc31.png" class="moment-deco-img camera-real-item moment-item" alt="Dekorasi Bawah">
+
+                <!-- Bingkai Emas Utama -->
+                <div class="gold-frame-wrapper moment-item">
+                    <div class="gold-frame-inner">
+                        <img src="aset/sc51.JPG" alt="Foto Kenisa">
+                    </div>
+                </div>
+
+                <!-- Dekorasi Pojok Atas Bingkai -->
+                <img src="aset/sc53.png" class="moment-deco-img rose-sticker-frame moment-item" alt="Dekorasi Atas">
+            </div>
+        </div>
+
+        <!-- SCREEN 6: PLAYLIST -->
+        <div id="screen6">
+            <button class="btn-back" onclick="backToScreen3From('screen6')">BACK ◀</button>
+
+            <div class="playlist-container">
+                <!-- Local Video Player -->
+                <div class="yt-video-wrapper playlist-item">
+                    <video id="localVideo" controls playsinline width="100%" height="100%" style="object-fit: cover;">
+                        <source src="aset/Banda Neira - Sampai Jadi Debu.mp4" type="video/mp4">
+                        Browser kamu tidak mendukung pemutaran video.
+                    </video>
+                </div>
+
+                <!-- Bingkai Emas Samping Kanan -->
+                <div class="playlist-frames-right">
+                    <div class="gold-mini-frame f-top-left playlist-item">
+                        <div class="gold-mini-frame-inner">
+                            <img src="aset/sc66.jpg" alt="Foto 1">
+                        </div>
+                    </div>
+
+                    <div class="gold-mini-frame f-top-right playlist-item">
+                        <div class="gold-mini-frame-inner">
+                            <img src="aset/sc65.jpg" alt="Foto 2">
+                        </div>
+                    </div>
+
+                    <div class="gold-mini-frame f-bottom-center playlist-item">
+                        <div class="gold-mini-frame-inner">
+                            <img src="aset/sc64.jpeg" alt="Foto 3">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dekorasi Foto Bawah -->
+                <img src="aset/sc63.png" class="playlist-emoji-deco emoji-radio playlist-item" alt="Dekorasi 1">
+                <img src="aset/sc62.png" class="playlist-emoji-deco emoji-tv playlist-item" alt="Dekorasi 2">
+                <img src="aset/sc61.png" class="playlist-emoji-deco emoji-music-notes playlist-item" alt="Dekorasi 3">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* --- SISTEM RESPONSIVE AUTO-SCALE --- */
+        function adjustResponsiveScale() {
+            const wrapper = document.getElementById('mainWrapper');
+            if (!wrapper) return;
+
+            const scaleX = window.innerWidth / 1000;
+            const scaleY = window.innerHeight / 580;
+            const scale = Math.min(scaleX, scaleY, 1.35);
+
+            wrapper.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', adjustResponsiveScale);
+        window.addEventListener('orientationchange', () => setTimeout(adjustResponsiveScale, 150));
+        document.addEventListener('DOMContentLoaded', adjustResponsiveScale);
+
+        /* --- LOGIKA INTERAKSI & ANIMASI --- */
+        const localVideo = document.getElementById('localVideo');
+        const messageText = `"Selamat ulang tahun Loveeeee, semoga di umur yang semakinn sulit ini, kam semakinnn baikk dan tetap semangattt, jangan lupa sama orang tua dan takut akan Tuhan yaaaa. Makasi udah mau hadirr dihidupkuuu, karnaa kamm yang buat hidupkuu jadiii lebihhh bahagiiaaaa dann lebih baikkk, semoga kita kedepannya jadi lebih baik lagii dan bisa mengubah apa yang seharusnya kita ubahhh, aku juga berharap semoga di hari-hari dan juga ulang tahunndu selanjutnyaaa kitaa masiihh sama buat ngerayainnya yaaaaa. Maaf kaloo akuu banyak salah samanduu dan sering buat kam kesalll, tapi percaya lahhh aku selalu sayang samanduuu dann sayang selamanyaaaa. I love youuuuuuuu so muchhhhh waaaaaaaa, thank you for everythinggg."`;
+        let typingTimeout = null;
+
+        function openEnvelope() {
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+            const animItems = document.querySelectorAll('#screen2 .anim-item');
+
+            screen1.style.opacity = '0';
+            screen1.style.transform = 'scale(0.8)';
+            screen1.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                screen1.style.display = 'none';
+                screen2.classList.add('active');
+
+                animItems.forEach((item, index) => {
+                    setTimeout(() => item.classList.add('show'), index * 180);
+                });
+            }, 500);
+        }
+
+        function goToScreen3() {
+            const screen2 = document.getElementById('screen2');
+            const screen3 = document.getElementById('screen3');
+            const animUpItems = document.querySelectorAll('#screen3 .anim-up');
+
+            screen2.style.opacity = '0';
+            screen2.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                screen2.style.display = 'none';
+                screen3.style.display = 'flex';
+                screen3.style.opacity = '1';
+                screen3.style.pointerEvents = 'auto';
+                screen3.classList.add('active');
+
+                animUpItems.forEach((item, index) => {
+                    setTimeout(() => item.classList.add('show'), index * 150);
+                });
+
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            }, 500);
+        }
+
+        function goToJourneyGallery() {
+            const screen3 = document.getElementById('screen3');
+            const screen4 = document.getElementById('screen4');
+            const journeyItems = document.querySelectorAll('#screen4 .journey-item');
+
+            screen3.style.opacity = '0';
+            screen3.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                screen3.classList.remove('active');
+                screen3.style.display = 'none';
+
+                screen4.style.display = 'flex';
+                screen4.style.opacity = '1';
+                screen4.style.pointerEvents = 'auto';
+                screen4.classList.add('active');
+
+                journeyItems.forEach(item => item.classList.remove('show'));
+
+                requestAnimationFrame(() => {
+                    journeyItems.forEach((item, index) => {
+                        setTimeout(() => item.classList.add('show'), index * 150);
+                    });
+                });
+
+                confetti({ particleCount: 120, spread: 90, origin: { y: 0.5 } });
+            }, 500);
+        }
+
+        function goToMomentScreen() {
+            const screen3 = document.getElementById('screen3');
+            const screen5 = document.getElementById('screen5');
+            const momentItems = document.querySelectorAll('#screen5 .moment-item');
+            const typedTarget = document.getElementById('typedTarget');
+
+            screen3.style.opacity = '0';
+            screen3.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                screen3.classList.remove('active');
+                screen3.style.display = 'none';
+
+                screen5.style.display = 'flex';
+                screen5.style.opacity = '1';
+                screen5.style.pointerEvents = 'auto';
+                screen5.classList.add('active');
+
+                momentItems.forEach(item => item.classList.remove('show'));
+                typedTarget.innerHTML = '';
+                if (typingTimeout) clearTimeout(typingTimeout);
+
+                requestAnimationFrame(() => {
+                    momentItems.forEach((item, index) => {
+                        setTimeout(() => item.classList.add('show'), index * 150);
+                    });
+
+                    setTimeout(() => startTypingAnimation(messageText, typedTarget), 400);
+                });
+
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+            }, 500);
+        }
+
+        function goToPlaylistScreen() {
+            const screen3 = document.getElementById('screen3');
+            const screen6 = document.getElementById('screen6');
+            const playlistItems = document.querySelectorAll('#screen6 .playlist-item');
+
+            screen3.style.opacity = '0';
+            screen3.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                screen3.classList.remove('active');
+                screen3.style.display = 'none';
+
+                screen6.style.display = 'flex';
+                screen6.style.opacity = '1';
+                screen6.style.pointerEvents = 'auto';
+                screen6.classList.add('active');
+
+                playlistItems.forEach(item => item.classList.remove('show'));
+
+                requestAnimationFrame(() => {
+                    playlistItems.forEach((item, index) => {
+                        setTimeout(() => item.classList.add('show'), index * 150);
+                    });
+                });
+
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+            }, 500);
+        }
+
+        function startTypingAnimation(text, element) {
+            let i = 0;
+            element.innerHTML = '<span class="typing-cursor"></span>';
+
+            function typeChar() {
+                if (i < text.length) {
+                    element.innerHTML = text.substring(0, i + 1) + '<span class="typing-cursor"></span>';
+                    i++;
+                    typingTimeout = setTimeout(typeChar, 18);
+                }
+            }
+            typeChar();
+        }
+
+        function backToScreen3From(currentScreenId) {
+            const screen3 = document.getElementById('screen3');
+            const currentScreen = document.getElementById(currentScreenId);
+
+            if (currentScreenId === 'screen4') {
+                document.querySelectorAll('#screen4 .journey-item').forEach(item => item.classList.remove('show'));
+            } else if (currentScreenId === 'screen5') {
+                document.querySelectorAll('#screen5 .moment-item').forEach(item => item.classList.remove('show'));
+                if (typingTimeout) clearTimeout(typingTimeout);
+                document.getElementById('typedTarget').innerHTML = '';
+            } else if (currentScreenId === 'screen6') {
+                document.querySelectorAll('#screen6 .playlist-item').forEach(item => item.classList.remove('show'));
+                if (localVideo) {
+                    localVideo.pause();
+                    localVideo.currentTime = 0;
+                }
+            }
+
+            currentScreen.style.opacity = '0';
+            currentScreen.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                currentScreen.classList.remove('active');
+                currentScreen.style.display = 'none';
+
+                screen3.style.display = 'flex';
+                screen3.style.opacity = '1';
+                screen3.style.pointerEvents = 'auto';
+                screen3.classList.add('active');
+
+                const optionImages = document.querySelectorAll('#screen3 .option-img');
+                const optionAuras = document.querySelectorAll('#screen3 .option-icon-box');
+
+                optionImages.forEach((img) => {
+                    img.style.animation = 'none';
+                    img.offsetHeight;
+                    img.style.animation = '';
+                });
+
+                optionAuras.forEach((aura) => {
+                    aura.style.animation = 'none';
+                    aura.offsetHeight;
+                    aura.style.animation = '';
+                });
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>
